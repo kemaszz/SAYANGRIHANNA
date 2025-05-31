@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Translator Bahasa Rahasia Lek</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 30px;
+      max-width: 600px;
+      margin: auto;
+      background-color: #f2f2f2;
+    }
+    h2 {
+      text-align: center;
+    }
+    select, input, button {
+      padding: 10px;
+      font-size: 16px;
+      width: 100%;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+    #hasil {
+      font-weight: bold;
+      font-size: 18px;
+      background: white;
+      padding: 10px;
+      border-radius: 5px;
+      word-break: break-word;
+    }
+  </style>
+</head>
+<body>
+  <h2>Translator Bahasa Rahasia 🔐</h2>
+
+  <label for="arah">Pilih Arah Terjemahan:</label>
+  <select id="arah">
+    <option value="encode">Bahasa Biasa → Bahasa Rahasia</option>
+    <option value="decode">Bahasa Rahasia → Bahasa Biasa</option>
+  </select>
+
+  <input type="text" id="inputTeks" placeholder="Masukkan teks di sini">
+  <button onclick="terjemahkan()">Terjemahkan</button>
+
+  <p><strong>Hasil:</strong></p>
+  <div id="hasil"></div>
+
+  <script>
+    const baris1 = "QWERTYUIOP";
+    const baris2 = "ASDFGHJKL";
+    const baris3 = "ZXCVBNM";
+    const rows = [baris1, baris2, baris3];
+
+    function geser(h, arah) {
+      for (let row of rows) {
+        let idx = row.indexOf(h.toUpperCase());
+        if (idx !== -1) {
+          let newIdx = (idx + arah + row.length) % row.length;
+          let newChar = row[newIdx];
+          return h === h.toUpperCase() ? newChar : newChar.toLowerCase();
+        }
+      }
+      return h;
+    }
+
+    function encode(teks) {
+      return [...teks].map(c => geser(c, 1)).join('');
+    }
+
+    function decode(teks) {
+      return [...teks].map(c => geser(c, -1)).join('');
+    }
+
+    function terjemahkan() {
+      const teks = document.getElementById("inputTeks").value;
+      const arah = document.getElementById("arah").value;
+      const hasil = arah === "encode" ? encode(teks) : decode(teks);
+      document.getElementById("hasil").innerText = hasil;
+    }
+  </script>
+</body>
+</html>
